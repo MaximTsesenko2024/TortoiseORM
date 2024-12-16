@@ -11,12 +11,14 @@ from tortoise import Tortoise, run_async
 from app.backend.db.db import get_product, TORTOISE_ORM
 from routers.product import product_router
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 
 from app.models.product import ProductModel, Categories
 
 templates = Jinja2Templates(directory='templates/product')
 
 api = FastAPI()
+api.mount("/static", StaticFiles(directory = "static"), name = "static")
 register_tortoise(api,
                   config=TORTOISE_ORM,
                   generate_schemas=True, add_exception_handlers=True)

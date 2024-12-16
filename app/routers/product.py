@@ -16,6 +16,7 @@ from PIL import Image
 
 product_router = APIRouter(prefix='/product', tags=['product'])
 templates = Jinja2Templates(directory='templates/product/')
+
 # корзины для покупки
 cars = {}
 
@@ -471,14 +472,13 @@ async def car_get(request: Request, id_product: int = -1,
                   user=Depends(get_current_user)):
     info = {'request': request, 'title': 'Корзина'}
     if user is None:
-        return RedirectResponse(f'/product/list/{id_product}', status_code=status.HTTP_303_SEE_OTHER)
+        return RedirectResponse(f'/product/{id_product}', status_code=status.HTTP_303_SEE_OTHER)
     product = await ProductModel.filter(id=id_product).first()
     if product is None:
         return HTTPException(status.HTTP_404_NOT_FOUND, 'Товар не найден')
     info['product'] = product
     info['user'] = user
     info['count'] = 1
-    info['count']
     return templates.TemplateResponse('car.html', info)
 
 
