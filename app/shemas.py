@@ -3,8 +3,8 @@ from typing import Optional
 from pydantic import BaseModel, Field
 from datetime import date
 from tortoise.contrib.pydantic import pydantic_model_creator
-from models.users import User
-from models.product import ProductModel, Categories, Shops, BuyerProd
+from app.models.users import User
+from app.models.product import ProductModel, Categories, Shops, BuyerProd
 
 User_pydantic = pydantic_model_creator(User)
 Product_pydantic = pydantic_model_creator(ProductModel)
@@ -66,10 +66,11 @@ class Car(BaseModel):
     count: int
 
 
-class Buyer(BaseModel):
-    user: int
-    product: int
-    shop: str
+class Payment(BaseModel):
+    name: str
+    card_number: int
+    expiry_date: str
+    security_code: int
 
 
 class Category(BaseModel):

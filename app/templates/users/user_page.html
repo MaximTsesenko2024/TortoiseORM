@@ -18,6 +18,8 @@
             <p></p>
             <p>Сотрудник: {% if user.is_staff %} Да {% else %} Нет {% endif %}</p>
             <p></p>
+            <p>Администратор: {% if user.admin %} Да {% else %} Нет {% endif %}</p>
+            <p></p>
              <p>Дата создания: {{user.created_at}}</p>
             <p></p>
             <p>Дата последнего обновления: {{user.updated_at}}</p>
@@ -34,6 +36,8 @@
     {% else %}
         <p> Вы не авторизованы. Пройдите авторизацию </p>
         <p><a href="\user\login"><button>Вход</button></a></p>
+        <p></p>
+        <a href="/user/registration"><button> Регистрация </button></a>
     {% endif %}
 
 

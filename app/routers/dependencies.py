@@ -7,6 +7,11 @@ from app.shemas import User_pydantic
 
 
 async def find_user_by_id(user_id: int = -1) -> User_pydantic | None:
+    """
+    Поиск пользователя по идентификационному номеру.
+    :param user_id: Идентификационный номер пользователя.
+    :return: Объект user если пользователь в базе данных найден, None - в противном случае
+    """
     if user_id < 0:
         return None
     user = await User.filter(id=user_id).first()
@@ -14,6 +19,11 @@ async def find_user_by_id(user_id: int = -1) -> User_pydantic | None:
 
 
 def get_token(request: Request):
+    """
+    Получение значения токена из запроса
+    :param request: Запрос
+    :return: Токен если он имеется и None в противном случае.
+    """
     token = request.cookies.get('users_access_token')
     if not token:
         return None
@@ -21,6 +31,12 @@ def get_token(request: Request):
 
 
 async def get_current_user(token: str | None = Depends(get_token)):
+    """
+    Получение пользователя по токену.
+    :param token: Токен пользователя или None
+    :return: Пользователь - в случае наличия токена и наличия идентификатора пользователя в базе данных, или
+             None - в противном случае.
+    """
     if token is None:
         return None
     try:
