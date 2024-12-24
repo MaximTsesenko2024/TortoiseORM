@@ -2,6 +2,9 @@ from tortoise import Tortoise, fields, models
 
 
 class User(models.Model):
+    """
+    Класс - описание пользователя в системе
+    """
     id = fields.IntField(primary_key=True)
     # имя пользователя в системе
     username = fields.CharField(max_length=255, index=True, unique=True)

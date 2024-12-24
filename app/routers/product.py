@@ -19,6 +19,9 @@ templates = Jinja2Templates(directory='app/templates/product/')
 
 
 class CarView:
+    """
+    Класс представляющий товар в корзине пользователя
+    """
     def __init__(self, number, id_prod, name, price, count):
         self.number = number
         self.id_prod = id_prod
@@ -629,7 +632,7 @@ async def buy_get(request: Request, delet: int = -1, shop: str = '', user=Depend
         car = cars[user.id]
         info['car'] = car
         info['user'] = user
-        info['shops'] = await Shops.all()
+        info['shops'] = await Shops.filter(is_active=True).all()
         for item in car:
             cost += item.price * item.count
         info['cost'] = cost
@@ -925,7 +928,7 @@ async def delete_shop_post(request: Request, shop_id: int = -1, user=Depends(get
         return RedirectResponse('/main')
     else:
         info['display'] = 'Ok'
-        await Shops.filter(id=shop_id).delete()
+        await Shops.filter(id=shop_id).update(is_active=False)
         return RedirectResponse('/product/shop/list', status_code=status.HTTP_303_SEE_OTHER)
 
 
@@ -938,7 +941,7 @@ async def select_shop_list_get(request: Request, user=Depends(get_current_user))
     :return: Страница со списком магазинов.
     """
     info = {'request': request, 'title': 'Список магазинов'}
-    shops = await Shops.all()
+    shops = await Shops.filter(is_active=True).all()
     if user is None:
         pass
     elif user.is_staff:
