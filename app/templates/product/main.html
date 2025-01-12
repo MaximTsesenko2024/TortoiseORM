@@ -12,26 +12,30 @@
     <h2> Здравствуйте</h2>
             <p> Пользователь: {{name}} </p>
             <form method="get" action="/main">
-            <input type="search" id="mySearch" name="q" placeholder="Поиск товаров" size="30" />
-            <button>Поиск</button>
+                <input type="search" id="mySearch" name="q" placeholder="Поиск товаров" size="30" />
+                <button>Поиск</button>
                 <div class="dropdown">
                     <button class="dropbtn">Меню</button>
                     <div class="dropdown-content">
                             <a href="/user">Меню пользователя</a>
                             <a href="/product/list">Список товаров</a>
-                            <a href="/product/shop/list">Список магазинов</a>
-                            {% if user_id %} <a href="/product/buy/">Корзина</a>{% endif %}
-                            {% if is_staff %} <a href="/product/category/list">Список категорий</a>{% endif %}
+                            <a href="/shop/list">Список магазинов</a>
+                            {% if user_id %} <a href="/buy">Корзина</a>{% endif %}
+                            {% if is_staff %} <a href="/category/list">Список категорий</a>{% endif %}
                     </div>
-            </div>
+                </div>
                 <div class="dropdown">
                     <button class="dropbtn">Категории</button>
                     <div class="dropdown-content">
-                        {% for category in categories %}
-                            <a href="?category={{category.id}}">{{category.name}}</a>
-                        {% endfor %}
+                        {% if categories %}
+                            {% for category in categories %}
+                                <a href="?category={{category.id}}">{{category.name}}</a>
+                            {% endfor %}
+                        {% else %}
+                            <a href="#">Нет категорий</a>
+                        {% endif %}
                     </div>
-            </div>
+                </div>
             </form>
 </body>
 </html>

@@ -1,4 +1,4 @@
-from tortoise import Tortoise, fields, models
+from tortoise import fields, models
 
 
 class ProductModel(models.Model):
@@ -30,52 +30,3 @@ class ProductModel(models.Model):
 
     class Meta:
         table = "products"
-
-
-class BuyerProd(models.Model):
-    """
-    Класс - описание покупки товара пользователем
-    """
-    id = fields.IntField(primary_key=True)
-    id_operation = fields.IntField(nullable=False)
-    user = fields.ForeignKeyField(
-        model_name="models.User",
-        on_delete=fields.CASCADE,
-    )
-    product = fields.ForeignKeyField(
-        model_name="models.ProductModel",
-        on_delete=fields.CASCADE,
-    )
-
-    id_shop = fields.ForeignKeyField(
-        model_name="models.Shops",
-        on_delete=fields.CASCADE,
-    )
-
-    class Meta:
-        table = 'buyer'
-
-
-class Categories(models.Model):
-    """
-    Класс - описание категории товара
-    """
-    id = fields.IntField(primary_key=True)
-    name = fields.CharField(max_length=255, unique=True)
-    parent = fields.IntField(default=-1)
-
-    class Meta:
-        table = 'categories'
-
-
-class Shops(models.Model):
-    """
-    Класс - описание магазина
-    """
-    id = fields.IntField(primary_key=True)
-    name = fields.CharField(max_length=255, unique=True)
-    location = fields.TextField()
-    is_active = fields.BooleanField(default=True)
-
-    class Meta:
-        table = 'shops'

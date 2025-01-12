@@ -22,15 +22,21 @@
         {% if service %}
         <p> Страницы:
             {% for i in service['pages'] %}
-                <a href="?page={{i}}">{{i}}</a>
+                <a href="?page={{i}}">{{i+1}}</a>
             {% endfor %}
             </p>
         {% endif %}
         {% if products %}
             <ul>
             {% for i in products %}
-              <li><img src="data:image/{{i['format_file']}}; base64, {{ i['image_str'] | safe }}" alt="{{ i['name']}}"/>
-                  <a href="/product/{{i['id']}}"> {{ i['name']}} </a> Цена: {{i['price']}} рублей</li>
+              <li>
+                  <div>
+                      <img src="data:image/{{i['format_file']}}; base64, {{ i['image_str'] | safe }}" alt="{{ i['name']}}"/>
+                       {% if not i['is_active'] %}  Товар не доступен {% endif %} <br>
+                      {% if i['count'] %} Товар в наличии {% else %} Товар отсутствует {% endif %} <br>
+                      <a href="/product/{{i['id']}}"> {{ i['name']}} </a> Цена: {{i['price']}} рублей
+                  </div>
+              </li>
             {% endfor %}
             </ul>
         {% else %}

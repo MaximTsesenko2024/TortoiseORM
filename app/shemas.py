@@ -1,16 +1,15 @@
-import datetime
-from typing import Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from datetime import date
 from tortoise.contrib.pydantic import pydantic_model_creator
+from app.models.category import Categories
+from app.models.shop import Shops
 from app.models.users import User
-from app.models.product import ProductModel, Categories, Shops, BuyerProd
+from app.models.product import ProductModel
 
-User_pydantic = pydantic_model_creator(User)
-Product_pydantic = pydantic_model_creator(ProductModel)
-Category_pydantic = pydantic_model_creator(Categories)
-Shop_pydantic = pydantic_model_creator(Shops)
-
+user_pydantic = pydantic_model_creator(User)
+product_pydantic = pydantic_model_creator(ProductModel)
+category_pydantic = pydantic_model_creator(Categories)
+shop_pydantic = pydantic_model_creator(Shops)
 
 
 class AdminUser(BaseModel):
@@ -24,6 +23,7 @@ class AdminUser(BaseModel):
     is_staff: str
     # Флаг принадлежности к администраторам
     admin: str
+
 
 class CreateUser(BaseModel):
     username: str
@@ -60,6 +60,7 @@ class Product(BaseModel):
     count: int
     item_number: str
     category: int
+    is_active: bool
 
 
 class Car(BaseModel):

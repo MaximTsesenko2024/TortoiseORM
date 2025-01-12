@@ -3,27 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>{{title}}</title>
-        <style>
-        img {
-            float: left;
-            margin: 10px;
-        }
-    </style>
+<link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
 </head>
 <body>
-        <h1> {{ product.name}}</h1>
-        <img src="data:image/{{format_file}}; base64, {{ image_str | safe }}" alt="{{ product.name}}"/>
-        <h2>Описание</h2>
-        <p> {{product.description}}</p>
+        <h1>Описание товара: {{product.name}}</h1>
+        <p></p>
         {% if product.is_active %}
-            <p>Цена {{product.price}}</p>
-            <p> В наличии: {{product.count}} </p>
-            <p>Категория: {{product_category}} </p>
-            <p>Акция: {% if product.action %} Участвует {% else %} Нет {% endif %}</p>
+            <img style="float: left;" src="data:image/{{format_file}}; base64, {{ image_str | safe }}" alt="{{ product.name}}"/>
+            {{product.description}}
+            Цена {{product.price}}<br>
+            В наличии: {{product.count}}<br>
+            Категория: {{product_category}}<br>
+            Акция: {% if product.action %} Участвует {% else %} Нет {% endif %}<br>
             {% if user %}
-            <a href="/product/car/{{product.id}}"> Купить</a>
+            <a href="/buy/car/{{product.id}}"> Купить</a>
             {% else %}
-            <p>Вы не вошли в систему</p>
+            Вы не вошли в систему<br>
             {% endif %}
         {% else %}
             <p>Товар отсутствует </p>

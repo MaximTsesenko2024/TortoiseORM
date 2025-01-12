@@ -12,7 +12,7 @@
             <form method="post" action="/product/update_product/{{product.id}}" enctype="multipart/form-data">
                 <div class="col-auto">
                     <div class="imput-group">
-                    <img src="data:image/{{format_file}}; base64, {{ image_str | safe }}" alt="{{ product.name}}"/>
+                    <img style="float: left;" src="data:image/{{format_file}}; base64, {{ image_str | safe }}" alt="{{ product.name}}"/>
                         <h2> {{ product.name}} </h2>
                     <label for="item_number"> Введите артикул </label>
                     <input type="text" id="item_number"  name="item_number" maxlength="255" value={{product.item_number}}
@@ -26,6 +26,10 @@
                     <p></p>
                      <label for="count"> Введите количество товара </label>
                     <input type="text" value={{product.count}} id="count" name="count" maxlength="255">
+                    <p></p>
+                    <label for="is_active">Доступность товара: </label>
+                    <input type="text" id="is_active" name="is_active" {% if product.is_active %} value="Да" {% else %} value="Нет"  {% endif %}
+                    aria-describedby="btn-update"> Да/Нет
                     <p></p>
                     <label for="category">Категория товара:</label>
                     <select name="category" id="category">

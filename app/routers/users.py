@@ -2,13 +2,12 @@ from fastapi import APIRouter, Depends, status, HTTPException, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from typing import Annotated
 from app.models.users import User
-from app.models.product import BuyerProd
 from fastapi.templating import Jinja2Templates
-from app.shemas import CreateUser, SelectUser, UpdateUser, AdminUser, RepairPassword, CreatePassword, User_pydantic
+from app.shemas import CreateUser, SelectUser, UpdateUser, AdminUser, RepairPassword, CreatePassword, user_pydantic
 from datetime import datetime
 from .auth import get_password_hash, create_access_token, verify_password
-from .dependencies import get_current_user, find_user_by_id
-from .product import cars
+from ..depends import get_current_user, find_user_by_id
+from ..routers.buy import cars
 
 user_router = APIRouter(prefix='/user', tags=['user'])
 templates = Jinja2Templates(directory='app/templates/users')
@@ -71,7 +70,7 @@ async def add_user_post(request: Request, create_user: CreateUser = Form()):
     day_birth = create_user.day_birth
     password = create_user.password
     repeat_password = create_user.repeat_password
-    users = await User_pydantic.from_queryset(User.all())
+    users = await user_pydantic.from_queryset(User.all())
     check = check_uniq(list(users), username, email)
     if not check['username']:
         info['message'] = f'Пользователь {username} уже существует!'
@@ -281,7 +280,7 @@ async def repair_password_post(request: Request, repair: RepairPassword = Form()
     сообщения об ошибке.
     """
     info = {'request': request, 'title': 'Восстановление пароля'}
-    user = await User_pydantic.from_queryset(User.filter(username=repair.username))
+    user = await user_pydantic.from_queryset(User.filter(username=repair.username))
     if user is None or user.email != repair.email:
         info['message'] = 'Пользователь не найден'
         return templates.TemplateResponse("repair.html", info)
@@ -391,9 +390,6 @@ async def delete_user_admin_post(request: Request,
     if user is None:
         return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Пользователь не найден')
     else:
-        buy_products = await BuyerProd.get_or_none(user=user.id)
-        if buy_products is not None:
-            await BuyerProd.filter(user=user.id).delete()
         if user.id in cars.keys():
             cars.pop(user.id)
         await User.filter(id=user.id).delete()
