@@ -6,7 +6,7 @@ async def check_use_category(category: int):
     """
     Проверка наличия товара выбранной категории
     :param category: Идентификатор категории
-    :return: True - есть товар указанной категории, False - нет товара
+    :return: True - есть товар с указанной категории, False - нет товара
     """
     count = await ProductModel.filter(category=int(category)).count()
     if count > 0:

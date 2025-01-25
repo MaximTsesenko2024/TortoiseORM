@@ -15,12 +15,10 @@ class BuyerProd(models.Model):
         model_name="models.ProductModel",
         on_delete=fields.CASCADE,
     )
-
-    id_shop = fields.ForeignKeyField(
+    shop = fields.ForeignKeyField(
         model_name="models.Shops",
         on_delete=fields.CASCADE,
     )
-
     is_used = fields.BooleanField(default=False)
     count = fields.IntField(nullable=False)
 

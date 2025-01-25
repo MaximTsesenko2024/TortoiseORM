@@ -51,9 +51,7 @@ async def select_products_list_get(request: Request, user: Annotated[user_pydant
             image_str, format_file = image_to_str(product, 'list')
             product_list.append({'name': product.name, 'price': product.price, 'id': product.id, 'image_str': image_str,
                                  'format_file': format_file, 'is_active': product.is_active, 'count': product.count})
-        info['products'], service = pagination(product_list, page, 4)
-        pages = [x for x in range(service['total'] + 1)]
-        info['service'] = {'page': service['page'], 'size': service['size'], 'pages': pages}
+        info['products'], info['service'] = pagination(product_list, page, 6)
         info['categories'] = await get_categories()
     return templates.TemplateResponse('product_list_page.html', info)
 
@@ -137,7 +135,7 @@ async def create_product_get(request: Request,
 async def update_product_post(request: Request, user: Annotated[user_pydantic, Depends(get_current_user)],
                               id_product: int = -1, item_number: str = Form(...), description: str = Form(...),
                               price: float = Form(...),
-                              count: int = Form(...), category: str = Form(...), is_active: str = ''):
+                              count: int = Form(...), category: str = Form(...), is_active: str = Form(...)):
     """
     Изменение данных о товаре. Запись данных о товаре, введённых пользователем при наличии у него прав.
     :param is_active: Статус доступности товара
@@ -152,8 +150,7 @@ async def update_product_post(request: Request, user: Annotated[user_pydantic, D
     :return: Страница с информацией о товаре.
     """
     if user is not None and user.is_staff:
-        categories = await get_categories()
-        cat = await get_category(categories, category)
+        cat = await get_category_model(category)
         await ProductModel.filter(id=id_product).update(description=description, price=price, count=count,
                                                         is_active=is_active == 'Да', category=cat,
                                                         item_number=item_number)
@@ -232,7 +229,7 @@ async def update_image_product_get(request: Request, user: Annotated[user_pydant
     :param user: Текущий пользователь.
     :return: Страница изменения изображения о товаре или страница входа в систему или страница со списком товаров
     """
-    info = {'request': request, 'title': 'Изменение описания товара'}
+    info = {'request': request, 'title': 'Изменение изображения товара'}
     if user is None:
         return RedirectResponse('/user/login')
     elif not user.is_staff:
@@ -314,8 +311,7 @@ async def select_product_get(request: Request, user: Annotated[user_pydantic, De
         info['product'] = product
         info['image_str'], info['format_file'] = image_to_str(product, 'page')
         if user is not None:
-            info['is_staff'] = user.is_staff
-            info['user'] = True
+            info['user'] = user
     else:
         return HTTPException(status.HTTP_404_NOT_FOUND, detail='Товар отсутствует')
     return templates.TemplateResponse('product_page.html', info)

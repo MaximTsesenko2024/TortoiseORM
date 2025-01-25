@@ -2,33 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
     <title>{{title}}</title>
-<link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
 </head>
 <body>
-        <h1>Описание товара: {{product.name}}</h1>
-        <p></p>
+        <h1> {{ product.name}}</h1>
+        <img src="data:image/{{format_file}}; base64, {{ image_str | safe }}" alt="{{ product.name}}"/>
+        <h2>Описание</h2>
+        <p> {{product.description}}</p>
         {% if product.is_active %}
-            <img style="float: left;" src="data:image/{{format_file}}; base64, {{ image_str | safe }}" alt="{{ product.name}}"/>
-            {{product.description}}
-            Цена {{product.price}}<br>
-            В наличии: {{product.count}}<br>
-            Категория: {{product_category}}<br>
-            Акция: {% if product.action %} Участвует {% else %} Нет {% endif %}<br>
-            {% if user %}
-            <a href="/buy/car/{{product.id}}"> Купить</a>
-            {% else %}
-            Вы не вошли в систему<br>
-            {% endif %}
+            <p>Цена {{product.price}}</p>
+            <p> В наличии: {{product.count}} </p>
+            <p>Категория: {{product_category}} </p>
+            <p>Акция: {% if product.action %} Участвует {% else %} Нет {% endif %}</p>
         {% else %}
             <p>Товар отсутствует </p>
         {% endif %}
-        {% if is_staff %}
-            <p></p>
-            <a href="/product/update_product/{{product.id}}">Обновить</a>
-        <p> <a href="/product/update_image_product/{{product.id}}">Изменить изображение</a></p>
-        <p> <a href="/product/delete/{{product.id}}">Удалить</a></p>
-        {% endif %}
-        <p><a href="/main"> На главную</a></p>
+        {% if user %}
+            {% if product.is_active %}
+                <p><a href="/buy/car/{{product.id}}"><button>Купить</button></a></p>
+            {% endif %}
+            {% if user.is_staff %}
+                <p><a href="/product/update_product/{{product.id}}"><button>Изменить</button></a></p>
+                <p> <a href="/product/update_image_product/{{product.id}}"><button>Изменить изображение</button></a></p>
+                <p> <a href="/product/delete/{{product.id}}"><button>Удалить</button></a></p>
+            {% endif %}
+            {% else %}
+            <p>Вы не вошли в систему</p>
+            {% endif %}
+        <p><a href="/product/list"><button>Вернуться</button></a></p>
+        <p><a href="/main"> <button>На главную </button></a></p>
 </body>
 </html>

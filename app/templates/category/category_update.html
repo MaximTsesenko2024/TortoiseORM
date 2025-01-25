@@ -38,9 +38,11 @@
             </form>
         </section>
         {% else %}
-            <a href="/user/login"> Вход</a>
-        {% endif %}
         <p></p>
-        <a href="\main"> На главную</a>
+        <a href="/user/login"><button>Вход</button></a>
+        {% endif %}
+        <p><a href="/category/{{id_category}}"><button>Вернуться</button></a> </p>
+        <p></p>
+        <a href="\main"><button>На главную</button></a>
 </body>
 </html>

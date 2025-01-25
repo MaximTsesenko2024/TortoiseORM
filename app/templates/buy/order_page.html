@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
+    <title> {{title}} </title>
+</head>
+<body>
+        <h1> {{title}} {{order.number}} </h1>
+        <h2>{{message}}</h2>
+        <h2>Магазин: {{order.shop.name}}</h2>
+            <ul>
+            {% for item in order.data_prods %}
+                <li> <a href="/product/{{item['product'].id}}"> Товар: {{item['product'].name}} </a> <br>
+                     Количество: {{item['count']}} <br>
+                     {% if item['used'] %}
+                        Товар выдан <br>
+                        {% if admin %} <p><a href="?used=-1&prod={{item['product'].id}}"><button>Отменить</button></a></p> {% endif %}
+                     {% else %}
+                        Товар готов к выдаче <br>
+                        {% if is_staff %} <p><a href="?used=1&prod={{item['product'].id}}"><button>Выдать</button></a></p> {% endif %}
+                     {% endif %} <br>
+                </li>
+            {% endfor %}
+            </ul>
+        <p><a href="\main"><button>На главную</button></a></p>
+</body>
+</html>

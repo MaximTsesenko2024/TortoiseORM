@@ -31,7 +31,6 @@
                     <p></p>
                     <label for="category">Категория товара:</label>
                     <select name="category" id="category">
-							<option value="-1"> Нет </option>
                         {% for item in categories %}
                             <option value={{item.id}}> {{item.name}} </option>
                         {% endfor %}
@@ -49,6 +48,6 @@
         {% endif %}
         <p></p>
         <p></p>
-    <a href="\main"> На главную</a>
+    <a href="\main"><button>На главную</button></a>
 </body>
 </html>

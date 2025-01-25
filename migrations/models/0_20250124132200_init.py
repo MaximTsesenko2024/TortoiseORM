@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS "buyer" (
     "id_operation" INT NOT NULL,
     "is_used" INT NOT NULL  DEFAULT 0,
     "count" INT NOT NULL,
-    "id_shop_id" INT NOT NULL REFERENCES "shops" ("id") ON DELETE CASCADE,
     "product_id" INT NOT NULL REFERENCES "products" ("id") ON DELETE CASCADE,
+    "shop_id" INT NOT NULL REFERENCES "shops" ("id") ON DELETE CASCADE,
     "user_id" INT NOT NULL REFERENCES "users" ("id") ON DELETE CASCADE
 ) /* Класс - описание покупки товара пользователем */;
 CREATE TABLE IF NOT EXISTS "aerich" (

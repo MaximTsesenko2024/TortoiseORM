@@ -47,6 +47,7 @@ async def welcome(request: Request, user: Annotated[user_pydantic, Depends(get_c
         info['name'] = user.username
         info['is_staff'] = user.is_staff
         info['user_id'] = user.id
+        info['admin'] = user.admin
     else:
         info['name'] = 'Вход не выполнен'
     categories = await get_categories()

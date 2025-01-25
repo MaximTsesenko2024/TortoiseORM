@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', path='/list.css') }}" rel="stylesheet">
     <meta charset="UTF-8">
     <title> {{title}} </title>
 </head>
@@ -21,30 +22,40 @@
         </form>
         {% if service %}
         <p> Страницы:
+            {% if service['page'] > 0 %}<a href="?page={{service['page']-1}}"> Предыдущая </a>{% else %} Предыдущая {% endif %}
             {% for i in service['pages'] %}
-                <a href="?page={{i}}">{{i+1}}</a>
+                {% if service['page'] == i %} {{i+1}} {% else %} <a href="?page={{i}}">{{i+1}}</a> {% endif %}
             {% endfor %}
+            {% if service['page'] < service['total'] %}<a href="?page={{service['page']+1}}"> Следующая </a>{% else %} Следующая {% endif %}
             </p>
         {% endif %}
         {% if products %}
-            <ul>
+            <div class ='row'>
             {% for i in products %}
-              <li>
-                  <div>
-                      <img src="data:image/{{i['format_file']}}; base64, {{ i['image_str'] | safe }}" alt="{{ i['name']}}"/>
-                       {% if not i['is_active'] %}  Товар не доступен {% endif %} <br>
-                      {% if i['count'] %} Товар в наличии {% else %} Товар отсутствует {% endif %} <br>
-                      <a href="/product/{{i['id']}}"> {{ i['name']}} </a> Цена: {{i['price']}} рублей
-                  </div>
-              </li>
+                 <div class ="column">
+                    <div class="card">
+                      <img src="data:image/{{i['format_file']}}; base64, {{ i['image_str'] | safe }}" alt="{{ i['name']}}">
+                      <div class="container">
+                        <h2>{{ i['name']}}</h2>
+                            {% if not i['is_active'] %}  Товар не доступен <br> <br>
+                            {% else %}
+                                {% if i['count'] %} Товар в наличии {% else %} Товар отсутствует {% endif %} <br>
+                                Цена: {{i['price']}} рублей <br>
+                                {% endif %} <br>
+                        <p><a href="{{i['id']}}"> <button class="button">Выбрать</button></a></p>
+                      </div>
+                    </div>
+                 </div>
             {% endfor %}
-            </ul>
+            </div>
         {% else %}
             <h1> Нет доступных товаров </h1>
         {% endif %}
         {% if is_staff %}
-            <a href="/product/create"> Добавить</a>
+            <a href="/product/create"><button>Добавить</button></a>
         {% endif %}
-        <p><a href="/main"> На главную</a></p>
+        <p></p>
+        <p></p>
+        <p><a href="/main"> <button>На главную </button></a></p>
 </body>
 </html>

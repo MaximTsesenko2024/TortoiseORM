@@ -15,12 +15,12 @@
                 {% endfor %}
                 </ul>
             {% else %}
-                <h1> Пусто </h1>
+                <h1> Нет категорий </h1>
             {% endif %}
-            <a href="/category/create"> Добавить</a>
+            <p><a href="/category/create"><button>Добавить</button></a></p>
         {% else %}
-            <a href="/user/login"> Вход</a>
+            <p><a href="/user/login"><button>Вход</button></a></p>
         {% endif %}
-            <p><a href="/main"> На главную</a></p>
+            <p><a href="/main"><button>На главную</button></a></p>
 </body>
 </html>

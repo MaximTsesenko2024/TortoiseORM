@@ -127,7 +127,7 @@ async def delete_category_get(request: Request, user: Annotated[user_pydantic | 
         info['id_category'] = id_category
         categories = await Categories.all()
         category = get_category(categories, id_category)
-        use_category = check_use_category(id_category)
+        use_category = await check_use_category(id_category)
         info['name'] = category.name
         children = get_categories_subgroups(categories, id_category)
         if len(children) > 0:
@@ -165,7 +165,7 @@ async def delete_category_post(request: Request, user: Annotated[user_pydantic |
 
 
 # просмотр категории
-@category_router.get('/category/{id_category}')
+@category_router.get('/{id_category}')
 async def category_get(request: Request, user: Annotated[user_pydantic | None, Depends(get_current_user)],
                        id_category: int):
     """
