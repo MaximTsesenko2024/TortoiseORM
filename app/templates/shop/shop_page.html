@@ -12,10 +12,10 @@
 
        <p>Адрес магазина: {{shop.location}}</p>
         <p></p>
-        <p><a href="/shop/list"> Вернуться к списку магазинов </a> </p>
+        <p><a href="/shop/list"><button>Вернуться к списку магазинов</button></a> </p>
         {% if display %}
-            <p><a href="/shop/update/{{shop.id}}"> Изменить </a> </p>
-            <p><a href="/shop/delete/{{shop.id}}"> Удалить </a> </p>
+            <p><a href="/shop/update/{{shop.id}}"><button>Изменить</button></a> </p>
+            <p><a href="/shop/delete/{{shop.id}}"><button>Удалить</button></a> </p>
         {% endif %}
         <p></p>
     <p><a href="\main"><button>На главную</button></a></p>

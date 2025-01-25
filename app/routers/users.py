@@ -448,7 +448,6 @@ async def update_user_admin_get(request: Request,
     elif not user.admin:
         return HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                              detail='Вы не авторизованны или у вас отсутствуют права')
-
     user = await find_user_by_id(id_user)
     if user is None:
         return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Пользователь не найден')
@@ -481,7 +480,7 @@ async def select_user_admin_get(request: Request,
         return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Пользователь не найден')
     else:
         info['user'] = car_user
-    return templates.TemplateResponse("update_admin_user.html", info)
+    return templates.TemplateResponse("admin_user.html", info)
 
 
 @user_router.get('/list')

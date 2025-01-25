@@ -124,7 +124,7 @@ async def payment_get(request: Request, user: Annotated[user_pydantic | None, De
     :param user: Текущий пользователь.
     :return: Отображение страницы оплаты
     """
-    info = {'request': request, 'title': 'Оплата товара'}
+    info = {'request': request, 'title': 'Оплата заказа'}
     cost = 0
     car = cars[user.id]
     info['car'] = car
@@ -271,7 +271,7 @@ async def buy_post(request: Request, user: Annotated[user_pydantic | None, Depen
     :param shop: Идентификатор выбранного магазина.
     :return: Переход к оплате или отображение страницы корзины пользователя.
     """
-    info = {'request': request, 'title': 'Оплата товара'}
+    info = {'request': request, 'title': 'Корзина'}
     cost = 0
     car = cars[user.id]
     info['car'] = car
